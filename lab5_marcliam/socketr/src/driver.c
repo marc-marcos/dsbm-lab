@@ -4,6 +4,7 @@
 #include<stdio.h>
 #include<unistd.h>
 #include<fcntl.h>
+#include <string.h>
 #include "ascii5x7.h"
 
 //Connections, TFT pin = board pin
@@ -288,8 +289,9 @@ typedef  struct {
 }pos_t;  //creating new type
 
 
-int open_port() {
-	int fd = open("/dev/ttyACM0", O_RDWR | O_NOCTTY);
+int open_port(char* port) {
+	printf("msg: %s\n", port);
+	int fd = open("/dev/ttyACM1", O_RDWR | O_NOCTTY);
 	if (fd < 0) perror("open");
 
 	printf("%d\n", fd);
@@ -369,4 +371,9 @@ void write_stop_and_go(int fd) {
   //  write(0,  &c, 1);
 
   // if (ret <= 0) perror("write");
+}
+
+int write_port(int fd, char* msg) {
+  int ret = write(fd,  msg, strlen(msg));
+	return ret;
 }
