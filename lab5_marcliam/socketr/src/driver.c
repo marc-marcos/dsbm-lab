@@ -375,5 +375,6 @@ void write_stop_and_go(int fd) {
 
 int write_port(int fd, char* msg) {
   int ret = write(fd,  msg, strlen(msg));
-	return ret;
+  if (ret <= 0) perror("write");
+  return ret;
 }

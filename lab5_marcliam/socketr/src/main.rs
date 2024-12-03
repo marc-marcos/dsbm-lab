@@ -2,6 +2,7 @@ use std::{
     io::{prelude::*, BufReader},
     net::{TcpListener, TcpStream},
     thread,
+    ffi::CString,
 };
 
 static POSITION: std::sync::RwLock<(u32, u32)> = std::sync::RwLock::new((0, 0));
@@ -35,13 +36,14 @@ fn main() {
 
 fn read_position(fd: i32) {
     loop {
+        let mut lock = POSITION.write().unwrap();
         write_stop_and_go(fd);
 
         let position: (f32, f32) = read_port(fd);
         
         let position: (u32, u32) = (position.0 as u32, position.1 as u32);
 
-        *POSITION.write().unwrap() = position;
+        *lock = position;
 
         println!("Posició actualizada: {position:?}");
 
@@ -49,10 +51,23 @@ fn read_position(fd: i32) {
     }
 }
 
-fn handle_servo_request(subpath : &str, fd : i32) {
+fn write_servo_angle(fd: i32, angle: u8) {
+    let num = format!("s{angle}*");
+    let a = CString::new(num);
+    dbg!(&a);
     let lock = POSITION.write().unwrap();
-    write_port(fd, c"s".as_ptr());
+    let b = write_port(fd, a.unwrap().as_ptr());
+    dbg!(b);
     drop(lock);
+}
+
+fn handle_servo_request(subpath: &str, fd: i32) {
+    let Some(Ok(angle)) = subpath.split("/").last().map(|s| s.parse::<u8>()) else {
+        return;
+    };
+
+    dbg!(angle);
+    write_servo_angle(fd, angle);
 }
 
 fn handle_connection(mut stream: TcpStream, fd : i32) {
@@ -68,14 +83,14 @@ fn handle_connection(mut stream: TcpStream, fd : i32) {
     let start = http_request[0].bytes().position(|x| x == b'/').unwrap();
     let end = http_request[0][start..].bytes().position(|x| x == b' ').unwrap() + start; 
 
-    let subpath = &http_request[0][start..end];
-
-    match subpath {
-        "servo" => handle_servo_request(subpath, fd),
-        _ => { }
-    }
+    let subpath = &http_request[0][start+1..end];
 
     dbg!(subpath);
+    
+    if subpath.starts_with("servo") {
+        handle_servo_request(subpath, fd);
+    }
+
 
     let response = format!("HTTP/1.1 200 OK\r\n\r\n<b>{:?}</b>", POSITION.read().unwrap());
 
