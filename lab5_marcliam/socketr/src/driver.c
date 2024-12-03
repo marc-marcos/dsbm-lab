@@ -291,7 +291,7 @@ typedef  struct {
 
 int open_port(char* port) {
 	printf("msg: %s\n", port);
-	int fd = open("/dev/ttyACM1", O_RDWR | O_NOCTTY);
+	int fd = open(port, O_RDWR | O_NOCTTY);
 	if (fd < 0) perror("open");
 
 	printf("%d\n", fd);

@@ -10,7 +10,7 @@ fn main() {
     Config_Pins();
     SPI_TFT_Reset();
 
-    let fd = open_port(c"/dev/ttyACM1".as_ptr());
+    let fd = open_port(c"/dev/ttyACM0".as_ptr());
 
     fill(0xFFFFFF);
 
@@ -50,7 +50,9 @@ fn read_position(fd: i32) {
 }
 
 fn handle_servo_request(subpath : &str, fd : i32) {
-    write_port(fd, c"s".as_ptr()); 
+    let lock = POSITION.write().unwrap();
+    write_port(fd, c"s".as_ptr());
+    drop(lock);
 }
 
 fn handle_connection(mut stream: TcpStream, fd : i32) {
