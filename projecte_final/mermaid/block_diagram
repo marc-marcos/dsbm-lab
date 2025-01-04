@@ -1,0 +1,25 @@
+block-beta
+columns 3
+
+    GPS
+    Temp["Temperatura i humitat"]
+    Alt["Alçada i pressió atmosferica"]
+    space space space 
+
+    block:micro:3
+    columns 1
+    STM32:1
+    end
+
+    space space space 
+
+    RTC["Real Time Clock"]
+    Rad["Radiació"]
+    Comm["Comunicacions"]
+
+    GPS -- "test" --> STM32
+    Temp -- "test" --> STM32
+    Alt -- "test" --> STM32
+    RTC -- "test" --> STM32
+    Rad --"test" --> STM32
+    Comm -- "test" --> STM32
