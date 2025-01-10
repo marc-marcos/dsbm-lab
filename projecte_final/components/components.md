@@ -19,7 +19,17 @@
   - Update rate: 10Hz
   - Precision: ±0.2°C
   
-- Orientació: https://www.vectornav.com/products/detail/vn-100
+- Orientació: [BNO055](https://www.bosch-sensortec.com/products/smart-sensor-systems/bno055/)
+  - Price: [8.65€/uni](https://mou.sr/4gNEZnv)
+  - Pins: 4 - 2 (I2C: SCL i SDA) + 2 (GPIO: PC_ADDR_SEL, INT)
+    - Input: Can be connected to 32KHZ external clock
+  - Power:
+    - VCC: 2.4V - 3.6V
+    - Current: 
+      - Mesuring: 12.3 mA
+      - Suspend mode: 0.04mA
+  - Update rate: 100Hz
+  - Precision: ±2.5 degrees
 
 - Altitud i pressió: [BMP390](https://www.bosch-sensortec.com/products/environmental-sensors/pressure-sensors/bmp390/)
   - [Data sheet](https://www.bosch-sensortec.com/media/boschsensortec/downloads/product_flyer/bst-bmp390-fl000.pdf)
@@ -34,7 +44,7 @@
 - RTC: [DS3231MZ/V+](https://www.digikey.es/es/products/detail/analog-devices-inc-maxim-integrated/DS3231MZ-V/3133910)
   - [Data sheet](https://www.analog.com/media/en/technical-documentation/data-sheets/DS3231M.pdf)
   - Price: [6.35€/uni](https://www.digikey.es/es/products/detail/analog-devices-inc-maxim-integrated/DS3231MZ-V/3133910)
-  - Pins: 3 (I2C: SCL, SDA, INTERRUPT)
+  - Pins: 3 - 2 (I2C: SCL, SDA) + 1 (GPIO: INTERRUPT)
     - OUTPUT CLK 32KHZ (for external clock)
   - Power:
     - VCC: 2.3V - 5.5V
@@ -42,6 +52,16 @@
   - Update rate: 1HZ (Interrupt each second)
   - Precision: ±0.432 Second/Day
 
+- Comunicacions: [SX1278](https://www.semtech.com/products/wireless-rf/lora-connect/sx1278)
+  - [Data sheet](https://semtech.my.salesforce.com/sfc/p/#E0000000JelG/a/2R0000001Rc1/QnUuV9TviODKUgt_rpBlPz.EZA_PNK7Rpi8HA5..Sbo)
+  - Price: [5.53€/uni](https://mou.sr/3BSIcTD)
+  - Pins: 9 - 4 (SPI: SCK, MISO, MOSI, NSS) + 5 (GPIO: DIO0-DIO5)
+  - Power:
+    - VCC: 1.8V - 3.7V
+    - Current:
+      - Idle: 1.5µA
+      - Receive: 12µA
+      - Transmit: 20mA - 120mA
+  - Distance: 200m - 820m
 
 - Radiació: https://www.electan.com/pocket-p-10168.html
-- Comunicacions: https://www.semtech.com/products/wireless-rf/lora-connect/sx1278
